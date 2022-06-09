@@ -109,8 +109,8 @@ newspaper_embedding_models
 
 > Sample: 1870's
 - time to tokenize **27,021,377** sentences: **9:55 mins**.
-- time to train a model on **27,021,377** sentences: **???**
-- tokenization + training: **???**
+- time to train a model on **27,021,377** sentences: **59.4 mins**
+- tokenization + training: **87.13 mins**
 
 **Pipeline2**: 
 - TBD

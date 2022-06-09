@@ -3,3 +3,4 @@ useful_scripts/
 input_data/
 outputs/
 __pycache__
+.DS_Store
