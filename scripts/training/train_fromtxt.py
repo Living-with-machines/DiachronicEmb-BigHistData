@@ -2,14 +2,12 @@ from random import sample
 import numpy as np
 import pandas as pd
 from nltk.tokenize.regexp import regexp_tokenize
-from nltk.tokenize import sent_tokenize
 from gensim.models import Word2Vec
 from tqdm import tqdm
 from gensim.models import Phrases
 import timeit
 from glob import glob
 import os
-
 
 # PREPARE THE DF
 
@@ -28,6 +26,10 @@ allfiles = glob('./input_data/{}/*'.format(samplename))
 
 if not os.path.exists('./outputs/{}'.format(samplename)):
 	os.mkdir('./outputs/{}'.format(samplename))
+
+# Place non-aligned embeddings in a dedicated dir
+if not os.path.exists('./outputs/{}/raw'.format(samplename)):
+	os.mkdir('./outputs/{}/raw'.format(samplename))
 
 # WORD2VEC
 # TRAIN ONE MODEL PER DF
@@ -77,7 +79,7 @@ for file in allfiles:
                     end_alpha=0.0025, 
                     epochs=5)
     
-	w2v_model.save("./outputs/{}/{}s.model".format(samplename,decade))
+	w2v_model.save("./outputs/{}/raw/{}s.model".format(samplename,decade))
 
 	print('Time to train the model: {} mins'.format(round((timeit.default_timer() - traintime) / 60, 2)))
     

@@ -1,26 +1,25 @@
 import numpy as np
 import pandas as pd
 from nltk.tokenize.regexp import regexp_tokenize
-from nltk.tokenize import sent_tokenize
 from gensim.models import Word2Vec
 from tqdm import tqdm
 from gensim.models import Phrases
 import timeit
 
-
 # PREPARE THE DF
 
+directme = input('Enter path to csv file containing the articles + metadata: ')
 timespan = input('Enter the timespan to consider in the format YYYY-YYYY (default: 1780-1920): ') or '1780-1920'
 start_year = float(timespan.split('-')[0]) # Explicitly set the start year
 end_year = float(timespan.split('-')[1]) # Explicitly set the end year
 period_length = input('Press Enter to divide the timespan by decades or enter the interval you wish (e.g. 20 for 20-year periods): ') or 10 # Set a 10-year increment (i.e. train one w2v model per decade)
 
 bigrams = input('Do you want to train a collocation (bigram detector) (y or [n])? ') or 'n'
-
+modelname = ('Enter a name for the folder that will contain the models: ')
 startall = timeit.default_timer()
 
 dfloadtime = timeit.default_timer()
-df = pd.read_csv('/Users/npedrazzini/Desktop/LwMWordEmb/input_data/lwm-whole-preprocessed.csv', usecols=['date-of-publication','text'])
+df = pd.read_csv('{}'.format(directme), usecols=['date-of-publication','text'])
 print('Time to load the df: {} mins'.format(round((timeit.default_timer() - dfloadtime) / 60, 2)))
 
 # SPLIT DF BY PERIOD
@@ -99,7 +98,7 @@ for dff in df:
                     end_alpha=0.0025, 
                     epochs=10)
     
-	w2v_model.save("/Users/npedrazzini/Desktop/LwMWordEmb/outputs/lwmcollection/{}s-word2vec-newspapers.model".format(decade))
+	w2v_model.save("./outputs/{}/{}s-model".format(modelname,decade))
 
 	print('Time to train the model: {} mins'.format(round((timeit.default_timer() - traintime) / 60, 2)))
     
