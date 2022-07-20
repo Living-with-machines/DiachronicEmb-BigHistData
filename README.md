@@ -190,16 +190,13 @@ Consider the following results, one from a 1860s model with OCR quality == all, 
 Tsakalidis, A., Basile, P., Bazzi, M. et al. DUKweb, diachronic word representations from the UK Web Archive corpus. Sci Data 8, 269 (2021). https://doi.org/10.1038/s41597-021-01047-x
 
 <a id="2">[2]</a> 
-Kim, Y., Chiu, Y.I., Hanaki, K., Hegde, D. & Petrov, S. Temporal Analysis of Language through Neural Language Models. Proceedings
-of the ACL 2014 Workshop on Language Technologies and Computational Social Science, pp. 61–65 (2014).
+Yoon Kim, Yi-I Chiu, Kentaro Hanaki, Darshan Hegde, and Slav Petrov. 2014. Temporal Analysis of Language through Neural Language Models. In Proceedings of the ACL 2014 Workshop on Language Technologies and Computational Social Science, pages 61–65, Baltimore, MD, USA. Association for Computational Linguistics. http://dx.doi.org/10.3115/v1/W14-2517
 
 <a id="3">[3]</a> 
-Shoemark, P., Ferdousi, L.F., Nguyen, D., Scott, H. & McGillivray, B. Room to Glo: A systematic comparison of semantic change
-detection approaches with word embeddings. Proceedings of the 2019 Conference on Empirical Methods in Natural Language
-Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), 66–76 (2019).
+Philippa Shoemark, Farhana Ferdousi Liza, Dong Nguyen, Scott Hale, and Barbara McGillivray. 2019. Room to Glo: A Systematic Comparison of Semantic Change Detection Approaches with Word Embeddings. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages 66–76, Hong Kong, China. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/D19-1007
 
 <a id="4">[4]</a> 
-William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2016. Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change. In Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 1489–1501, Berlin, Germany. Association for Computational Linguistics.
+William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2016. Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change. In Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 1489–1501, Berlin, Germany. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/P16-1141
 
 <a id="5">[5]</a> 
-Andrey Kutuzov, Lilja Øvrelid, Terrence Szymanski, and Erik Velldal. 2018. Diachronic word embeddings and semantic shifts: a survey. In Proceedings of the 27th International Conference on Computational Linguistics, pages 1384–1397, Santa Fe, New Mexico, USA. Association for Computational Linguistics.
+Andrey Kutuzov, Lilja Øvrelid, Terrence Szymanski, and Erik Velldal. 2018. Diachronic word embeddings and semantic shifts: a survey. In Proceedings of the 27th International Conference on Computational Linguistics, pages 1384–1397, Santa Fe, New Mexico, USA. Association for Computational Linguistics. https://aclanthology.org/C18-1117
