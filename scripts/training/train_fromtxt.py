@@ -1,6 +1,3 @@
-from random import sample
-import numpy as np
-import pandas as pd
 from nltk.tokenize.regexp import regexp_tokenize
 from gensim.models import Word2Vec
 from tqdm import tqdm
@@ -12,17 +9,15 @@ import os
 # PREPARE THE DF
 
 samplename = input('Enter name of sample (i.e. name of folder under inputs/ containing the plain txt files): ')
-timespan = input('Enter the timespan to consider in the format YYYY-YYYY (default: 1780-1920): ') or '1780-1920'
-start_year = float(timespan.split('-')[0]) # Explicitly set the start year
-end_year = float(timespan.split('-')[1]) # Explicitly set the end year
-period_length = input('Press Enter to divide the timespan by decades or enter the interval you wish (e.g. 20 for 20-year periods): ') or 10 # Set a 10-year increment (i.e. train one w2v model per decade)
-
 bigrams = input('Do you want to train a collocation (bigram detector) (y or [n])? ') or 'n'
 # spellcheck = ('Do you want to apply a spellchecker? (y or [n])? ') or 'n'
 
 startall = timeit.default_timer()
 
 allfiles = glob('./input_data/{}/*'.format(samplename))
+
+if not os.path.exists('./outputs'):
+	os.mkdir('./outputs')
 
 if not os.path.exists('./outputs/{}'.format(samplename)):
 	os.mkdir('./outputs/{}'.format(samplename))

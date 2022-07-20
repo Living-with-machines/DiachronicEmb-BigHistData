@@ -5,4 +5,4 @@ outputs/
 __pycache__
 .DS_Store
 DHOxSS/
-postprocess/
+.ipynb_checkpoints
