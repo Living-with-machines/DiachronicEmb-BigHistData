@@ -53,9 +53,10 @@ newspaper_embedding_models
 
 ## Tokenization and training
 > Script: `train_fromtxt.py`
+> Note: new models will be released soon after a grid search through some of the main parameters (optimal ones: `min_count`=1, `window`=3, `epochs`=5, `sg`=True, `vector_size`=200)
 - For each txt file for a decade:
     * Initialize empty list (which will contain all tokenized sentences to be used for training)
-    * Tokenize sentences, append them to the list
+    * Tokenize sentences and add tokens to the list (not the sentences: this will kill the process, as we have too many sentences)
     * Randomly initialize w2v model (params: `min_count`=10, `window`=5, `epochs`=5, `sg`=True, `vector_size`=200)
     * Train model on decade
     * Save model as `XXXXs.model` (e.g. `1860s.model`)
