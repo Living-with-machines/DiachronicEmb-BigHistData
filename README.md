@@ -10,6 +10,12 @@
   <a href="/LICENSE">
 <img src="https://img.shields.io/badge/License-MIT-green">
   </a>
+    <a href="https://github.com/Living-with-machines/DiachronicEmb-BigHistData/actions/workflows/ci_test_ubuntu.yml/badge.svg">
+  <img alt="Integration Tests badge" src="https://github.com/Living-with-machines/DiachronicEmb-BigHistData/actions/workflows/ci_test_ubuntu.yml/badge.svg">
+  </a>
+  <a href="https://github.com/Living-with-machines/DiachronicEmb-BigHistData/actions/workflows/ci_test_macos.yml/badge.svg">
+  <img alt="Integration Tests badge" src="https://github.com/Living-with-machines/DiachronicEmb-BigHistData/actions/workflows/ci_test_macos.yml/badge.svg">
+  </a>
 </p>
 
 
