@@ -7,3 +7,5 @@ __pycache__
 DHOxSS/
 .ipynb_checkpoints
 scripts/optimize_params
+.venv
+poetry.lock
