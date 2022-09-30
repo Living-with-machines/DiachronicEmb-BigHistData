@@ -1,0 +1,38 @@
+# ------------------- Give a name to the new test run --------------------
+
+namethetest: 'test_models'
+
+# ------------------- General input variables --------------------
+
+inputs:
+  directory: '/tests/test_data/'
+
+# ------------------- Preprocessing settings --------------------
+
+preprocessing:
+  skip: False
+  savepreprocessed: True
+  pipelines:
+    minwordlength: 1
+    lowercase: True
+    remove_punctuation: True
+    remove_stopwords: True
+
+
+# ------------------- Training settings --------------------
+
+training:
+  skip: False
+  options:
+    epochs: 5
+    vector_size: 300
+    sg: True
+    min_count: 5
+    window: 3
+    start_alpha: 0.025
+    end_alpha: 0.025
+    workers: 4
+
+# ------------------- Alignment settings --------------------
+alignment:
+  skip: False
