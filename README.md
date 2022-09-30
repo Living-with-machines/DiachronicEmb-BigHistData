@@ -42,8 +42,8 @@ Table of contents
     * [References and useful literature](#references-and-useful-literature)
     * [Useful links](#useful-links)
 - [Appendix 1: Computational Costs](#appendix-1-computational-costs)
-    *[Pre-processing](#pre-processing)
-    *[Tokenization and Training](#tokenization-and-training)
+    * [Pre-processing](#pre-processing)
+    * [Tokenization and Training](#tokenization-and-training)
 
 ## Overview of the tools
 The scripts presented in this repository were created to **train and explore diachronic word embeddings (Word2Vec) from very large historical data for which metadata on the year of publication of each text file is available**. While the mapping between texts and year of publication is essential (to get _diachronic_ embeddings), the methods presented can in principle be applied to any other diachronic collection. 
