@@ -1,28 +1,61 @@
-# Word embeddings for historical newspaper corpora
+<div align="center">
+    <br>
+    <p align="center">
+    <h1>BigHistData-Diachronic-Embeddings</h1>
+    </p>
+    <h2>Tools to train and explore diachronic word embeddings from Big Historical Data</h2>
+</div>
+ 
+<p align="center">
+  <a href="">
+<img src="https://img.shields.io/badge/License-MIT-green">
+  </a>
+</p>
+
 
 Table of contents
 -----------------
-
+- [Overview of the tools](#overview-of-the-tools)
 - [Repository structure](#repository-structure)
-- [Pre-processing](#pre-processing)
-- [Tokenization and training](#tokenization-and-training)
-- [Merging of vectors for OCR errors](#merging-of-vectors-for-ocr-errors)
-- [Processing times](#processing-times)
-    * [Pre-processing](#pre-processing)
-    * [Tokenization and training](#tokenization-and-training)
-    * [Merging of vectors (OCR errors post-correction)](#merging-of-vectors-post-correction-of-ocr-errors)
-- [Comparison between models trained on different OCR qualities](#comparison-between-models-trained-on-different-ocr-qualities)
-    * [Most similar to machine](#most-similar-to-machine)
-    * [Most similar to machines](#most-similar-to-machines)
-    * [Most similar to machinery](#most-similar-to-machinery)
-- [Notes](#notes)
-    * [Bottlenecks and decisions made](#bottlenecks-and-decisions-made)
-    * [Decisions to be made](#decisions-to-be-made)
-- [References and relevant literature](#references-and-relevant-literature)
+- [Installation](#installation)
+- [Data structure](#data-structure)
+- [Train diachronic word embeddings](#train-diachronic-word-embeddings)
+    * [Breakdown of outputs](#breakdown-of-outputs)
+        - [Directories](#directories)
+        - [Pre-processed texts](#pre-processed-texts)
+        - [Raw models](#raw-models)
+        - [Aligned models](#aligned-models)
+    * [Computational costs](#computational-costs)
+- [Post-processing (optional)](#post-processing-optional)
+    * [Merging of vectors of spelling variants](#merging-of-vectors-of-spelling-variants)
+- [Explore pre-trained diachronic word embeddings](#explore-pre-trained-diachronic-word-embeddings)
+    * [Changepoint detection](#changepoint-detection)
+    * [Visualize semantic change trajectory](#visualize-semantic-change-trajectory)
+    * [K-means clustering with Dynamic Time Warping](#k-means-clustering-with-dynamic-time-warping)
+- [Links, references and relevant literature](#links-references-and-relevant-literature)
+    * [References and useful literature](#references-and-useful-literature)
+    * [Useful links](#useful-links)
+
+## Overview of the tools
+The scripts presented in this repository were created to **train and explore diachronic word embeddings (Word2Vec) from very large historical data for which metadata on the year of publication of each text file is available**. While the mapping between texts and year of publication is essential (to get _diachronic_ embeddings), the methods presented can in principle be applied to any other diachronic collection. 
+
+One of the main reasons why _Big Historical Data_ need specific tools compared to Big Data in general is mainly that more often than not we are dealing with OCR'd text generally containing a large amount of errors. This means that, together with the granularity-speed trade-off needed during preprocessing (common to Big Data in general), we also need extra steps to make sure that OCR errors are dealt with and that they figure in any evaluation framework we might choose to adopt when training embeddings from them.
+
+Compared to smaller historical text collections, Big Historical Data and Big Data in general, because of their mere size, will typically undergo minimal preprocessing, since NLP tasks such as lemmatization, PoS tagging, morphological analysis or dependency annotation (used as 'preprocessing' steps in embedding architectures such as [[1]](#graphbasedemb) and [[5]](#levygold2014) may be computationally unfeasible unless we subsample our corpus beyond the temporal variable. In fact, even minimal preprocessing may not be feasible by sticking only to one specific popular library (e.g. `spaCy`): instead, each preprocessing step will need to be optimized for computational costs by combining specific pipelines from different external libraries, as well as bespoke methods.
+
+This repository is meant to provide an easy-to-reproduce pipeline whereby, given a series of text files each containing all the texts for one particular time unit, we can train diachronic embedding models and carry out semantic change analysis on them (including semantic change detection, visualization of meaning change trajectories, clustering of semantic change types). 
+
+<p align="center">
+<img src="documentation/flowchart.png" width="650" height="450">
+</p>
+<p align="center">
+Fig. 1 - Flowchart of the methods, from preprocessing to time-series analysis. Red items indicate steps or data not provided by this repository. Purple items in any pre-analysis stage indicate optional steps. Sketched edges indicate methods which are still experimental (and, as such, without an established validation technique). Striped white-and-yellow boxes indicate methods which lead to final outputs for analysis.
+</p>
+
 
 ## Repository structure
 ```
-newspaper_embedding_models
+BigHistDiachEmb
 ├─ README.md
 └─ scripts
    ├─ alignment
@@ -39,165 +72,224 @@ newspaper_embedding_models
         └─ train_fromtxt.py
 ```
 
-## Pre-processing
-> Script: `preprocess-alto2txt-totxt.py`
-- Run `listpathsbyyear.py` to generate one file per decade containing a list of directories in Azure containing the articles for that decade.
-- Read alto2txt-ed plain text files decade by decade (from the output of `listpathsbyyear.py`).
-- Remove newlines (due to the OCR)
-- Divide by sentences (`nltk.tokenize.sent_tokenize`)
-- Lowercase
-- Remove punctuation
-- Remove stopwords (`nltk.stopwords.words("english")`)
-- Write sentences in one txt file per decade (named XXXXs.txt, e.g. 1880s.txt)
+## Installation
+
+### Pre-requisites
+The setup relies on the integration of [`pyenv`](https://github.com/pyenv/pyenv) and [`poetry`](https://python-poetry.org). Make sure you first install `pyenv` following [these instructions](https://github.com/pyenv/pyenv#installation) and `poetry` following [these instructions](https://python-poetry.org/docs/#installation).
+
+### Clone project
 
 
-## Tokenization and training
-> Script: `train_fromtxt.py`
-> Note: new models will be released soon after a grid search through some of the main parameters (optimal ones: `min_count`=1, `window`=3, `epochs`=5, `sg`=True, `vector_size`=200)
-- For each txt file for a decade:
-    * Initialize empty list (which will contain all tokenized sentences to be used for training)
-    * Tokenize sentences and add tokens to the list (not the sentences: this will kill the process, as we have too many sentences)
-    * Randomly initialize w2v model (params: `min_count`=10, `window`=5, `epochs`=5, `sg`=True, `vector_size`=200)
-    * Train model on decade
-    * Save model as `XXXXs.model` (e.g. `1860s.model`)
+### Install Python version (pyenv)
+Install `python 3.10.1`. This is the version on which this project has been tested (on MacOS and Linux/Ubuntu), so there is no guarantee that everything will run smoothly on other Python versions. To install it run:
+
+```
+pyenv install 3.10.1
+```
+
+And set it as the `global` version:
+
+```
+pyenv global 3.10.1
+```
+
+Restart the terminal for the changes to take effect:
+
+```
+exec bash -l
+```
+
+### Install virtual env and project dependencies (poetry)
+
+Change directory to the current project:
+
+```
+cd ???
+```
+
+Create virtual environment and install project dependencies:
+
+```
+poetry install
+```
+
+To be able to use the Jupyter notebooks under `scripts/exploration`, create a Kernel which you will select when running the notebook:
+
+```
+poetry run ipython kernel install --user --name=bighistdiachemb
+```
 
 
-## Processing times
-### Pre-processing
-> Sample: whole LWM and HMD collections
-- processing times for **4.7B** words (7,102,851 articles): **7 hours and 32 minutes**
+Then to start using the project scripts, activate the virutal environment:
 
-### Tokenization and training
-> Sample: 1800s (all OCR qualities)
-- time to tokenize **?** sentences: **? min**.
-- time to train a model on **?** sentences: **? mins**
-- tokenization + training: **? mins**
+```
+poetry shell
+```
 
-> Sample: 1810s (all OCR qualities)
-- time to tokenize **?** sentences: **1 min**.
-- time to train a model on **?** sentences: **29 mins**
-- tokenization + training: **34 mins**
+You can now run a `.py` script as usual, for example:
 
-> Sample: 1820s (all OCR qualities)
-- time to tokenize **13,495,444** sentences: **2:07 mins**.
-- time to train a model on **13,495,444** sentences: **37 mins**
-- tokenization + training: **41 mins**
+```
+python scripts/training/train_diach_emb.py
+```
 
-> Sample: 1830s (all OCR qualities)
-- time to tokenize **9,389,676** sentences: **01:25 mins**.
-- time to train a model on **9,389,676** sentences: **27 mins**
-- tokenization + training: **30 mins**
+Or start a Jupyter session:
 
-> Sample: 1840s (all OCR qualities)
-- time to tokenize **30,181,001** sentences: **04:11 mins**.
-- time to train a model on **30,181,001** sentences: **1h 4 mins**
-- tokenization + training:  **1h 11 mins**
-
-> Sample: 1850s (all OCR qualities)
-- time to tokenize **37,786,194** sentences: **04:54 mins**.
-- time to train a model on **37,786,194** sentences: **77.75 mins**
-- tokenization + training: **86.36 mins**
-
-> Sample: 1860s (all OCR qualities)
-- time to tokenize **34,126,059** sentences: **13 mins**.
-- time to train a model on **34,126,059** sentences: **1h 17 mins**
-- tokenization + training: **1 h 50m**
-
-> Sample: 1870s (all OCR qualities)
-- time to tokenize **27,021,377** sentences: **9:55 mins**.
-- time to train a model on **27,021,377** sentences: **59.4 mins**
-- tokenization + training: **87.13 mins**
-
-> Sample: 1880s (all OCR qualities)
-- time to tokenize **35,716,553** sentences: **4:39 mins**.
-- time to train a model on **35,716,553** sentences: **66.39 mins**
-- tokenization + training: **74.47 mins**
-
-> Sample: 1890s (all OCR qualities)
-- time to tokenize **34,077,373** sentences: **03:48 mins**.
-- time to train a model on **34,077,373** sentences: **52.38 mins**
-- tokenization + training: **59.26 mins**
-
-> Sample: 1900s (all OCR qualities)
-- time to tokenize **23,530,425** sentences: **02:44 mins**.
-- time to train a model on **23,530,425**  sentences: **32.7 mins**
-- tokenization + training: **37.47 mins**
-
-> Sample: 1910s (all OCR qualities)
-- time to tokenize **14,678,780** sentences: **01:37 mins**.
-- time to train a model on **34,077,373** sentences: **18.33 mins**
-- tokenization + training: **21.23 mins**
-
-### Merging of vectors (post-correction of OCR errors)
-To load a model, extract its keys, check the spelling for **356,429 word vectors** (all 1870s, HMD+LWM) and merge the mispellings it took: **4.40 hours**. 
-NB: 258,944 out of 356,429 words were considered mispellings! Note that out of the remaiining 97,484 words there are still certainly several mispellings, which SpellChecker did not manage to correct. 
+```
+jupyter notebook
+```
 
 
-## Merging of vectors for OCR errors
-> NB: This is still experimental.
-The script `merge_errors.py` takes a w2v model as input and returns a list of vectors with keys merged if they are considered spelling variants by the package `SpellChecker`. The output needs to be loaded as `KeyedVector`, not as a full `Word2Vec` model.
+## Data structure
+All the steps presented below assume that you start from one input TXT file for time slice. It is recommended that each line in the TXT file consist of topically (roughly) coherent units (e.g. sentences, articles, paragraphs). Make sure each file is named so that you can easily recognize which time slice they represent (the same name will be given to the respective model). For example, if you want to train one model per decade for the period 1840-1879, you may have: `1840s.txt`, `1850s.txt`, `1860s.txt`, `1870s.txt`.
 
+## Specify some variables
+Before starting, edit the [`config.yaml`](./config.yaml/) file with the relevant settings. The following is a complete breakdown of the variables you must or might wish to customize.
 
-## Comparison between models trained on different OCR qualities
-Consider the following results, one from a 1860s model with OCR quality == all, the other only > 0.90.
+- `namethetest` (str): Give a name to the test run or training session (e.g. "diachronic_news"). This will be the name given to the directory which is automatically created during training and where all the outputs from the current session will be saved. 
+- `inputs`:
+    - `directory` (str): Folder where all the input `.txt` files are stored (e.g. "/input_news/").
+- `preprocessing`:
+    - `skip` (bool): Whether you want to skip preprocessing (e.g. in case you provide already preprocessed texts.
+    - `savepreprocessed` (bool): If `skip` is `False`, whether you want to save the preprocessed `.txt` files or forget them after training.
+    - `pipelines`:
+        - `minwordlength` (int): Number of characters that a word needs to contain for it to be kept. Anything below this number will be removed from the text (e.g. `minwordlength = 3` will remove all 1- and 2-character words, such as *as* or *a*).
+        - `lowercase` (bool): Whether you want the text to be lowercased.
+        - `remove_punctuation` (bool): Whether you want to remove punctuation.
+        - `remove_stopwords` (bool): Whether you want to remove stopwords.
+            > __Note__: If `remove_stopwords = True`, the list of stopwords will be the English ones provided by `nltk`. To customize them, add your stopwords to the `cachedStopwords` list in the script [`train_diach_emb.py`](/scripts/training/train_diach_emb.py)
+- `training`:
+    - `skip` (bool): Whether you want to skip training (e.g. if you only wish to preprocess the texts and save them).
+    - `w2v_options`:
+        > __Note__: The following are the parameters that are passed onto `Word2Vec`. Their description below is taken from [here](https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec).
+        - `epochs` (int): Number of iterations (epochs) over the corpus.
+        - `vector_size` (int): Dimensionality of the word vectors.
+        - `sg` (bool): Training algorithm: `True` for skip-gram; otherwise CBOW.
+        - `min_count` (int):  Ignores all words with total frequency lower than this.
+        - `window` (int): Maximum distance between the current and predicted word within a sentence.
+        - `start_alpha` (float): Initial learning rate.
+        - `end_alpha` (float): Final learning rate. 
+        - `workers` (int): Use these many worker threads to train the model (=faster training with multicore machines).
+- `alignment`:
+    - `skip` (bool): Whether you want to skip alignment of the trained models via Orthogonal Procrustes. If `True`, the aligned models will be saved alongside the non-aligned ones (in separate directories, (`namethetest/outputs/aligned/` and `namethetest/outputs/raw/`, respectively)
 
-### Most similar to _machine_
-**All OCR qualities**:
-[('machines', 0.8097250461578369), ('maehine', 0.7315937280654907), ('sewing', 0.6739287376403809), ('mschines', 0.6591671705245972), ('machined', 0.6497806906700134), ('stitcii', 0.6432080268859863), ('machinea', 0.642343282699585), ('maciiine', 0.63560551404953), ('maciiines', 0.6317011713981628), ('machinf', 0.6287257671356201)]
+## Train diachronic word embeddings
+Preprocessing, training and alignment are all carried out by running one script:
 
-**OCR>0.90**:
-[('machines', 0.8224047422409058), ('maehine', 0.7288569808006287), ('sewing', 0.7196574807167053), ('machined', 0.6894606351852417), ('maciiine', 0.6764348149299622), ('stitc', 0.6748238205909729), ('achines', 0.6676322817802429), ('maohine', 0.6472572684288025), ('mortising', 0.646981418132782), ('threshing', 0.6202985048294067)]
+```
+python ./scripts/training/train_diach_emb.py
+```
 
-### Most similar to _machines_
-**All OCR qualities**:
-[('machine', 0.8097251057624817), ('machined', 0.7469484210014343), ('sewing', 0.7378761768341064), ('machinea', 0.7249653935432434), ('maehines', 0.7194136381149292), ('maehine', 0.7114378213882446), ('maohines', 0.7110329866409302), ('maciiines', 0.7070027589797974), ('achines', 0.7005993723869324), ('mschines', 0.6788889169692993)]
+The three pipelines (preprocessing, training and alignment) can be applied one by one by setting the variable `skip` to `False` for only one of the three at a time in the `config.yaml` file (setting the other two to `True`), as described in the previous section. Especially if you are training diachronic embeddings on a very large historical dataset, it is in fact recommended to first preprocess and save the preprocessed texts (by setting the `savepreprocessed` variable to `True`) and to train and align the embeddings on a second run. The script saves the preprocessed texts under `./outputs/<namethetest>/` by default, so if the latter route is taken, change the variable `directory` to the folder where the new preprocessed texts are before running the script again for training and alignment.
 
-**OCR>0.90**:
-[('machine', 0.822404682636261), ('sewing', 0.7372316718101501), ('machined', 0.7232564687728882), ('achines', 0.6847306489944458), ('maehine', 0.6781646609306335), ('stitc', 0.6730467081069946), ('maciiine', 0.6573492884635925), ('stitch', 0.6254497170448303), ('slotting', 0.619963526725769), ('achine', 0.6173325777053833)]
+### Breakdown of outputs
+The following is a complete lists of possible outputs generated by the script.
 
+#### Directories
+> __Note__: These are only created if the directory does not already exist.
+- `./outputs/`: This is the top level where all outputs are saved.
+- `./outputs/<test_run_name>/`: Dedicated folder where all outputs from a specific test run will be saved. This is also the folder directly under which preprocessed texts are saved by default.
+- `./outputs/<test_run_name>/raw/`: Dedicated folder for all raw (non-aligned) Word2Vec models.
+- `./outputs/<test_run_name>/aligned/` (dir): Dedicated folder for all aligned Word2Vec models.
 
-### Most similar to _machinery_
-**All OCR qualities**:
-[('pitwork', 0.6965991258621216), ('machieery', 0.684580385684967), ('mashinery', 0.6752263307571411), ('maohinery', 0.6704638600349426), ('machisery', 0.6614018082618713), ('dynamometers', 0.656417727470398), ('maehinery', 0.6512506008148193), ('engines', 0.638211190700531), ('machineiy', 0.6372394561767578), ('ropemaking', 0.6365615725517273)]
+#### Pre-processed texts
+The pre-processed texts are only saved if the `savepreprocessed` variable in the `config.yaml` file is set to `True`, in which case they are saved with the same name as the originals, directly under the folder `./outputs/<test_run_name>/`, which is automatically created when running the script.
 
-**OCR>0.90**:
-[('engines', 0.6259132027626038), ('ropemaking', 0.6172173023223877), ('dynamometers', 0.6092963218688965), ('machiner', 0.6085454225540161), ('gear', 0.602767825126648), ('recoating', 0.5817556977272034), ('machined', 0.5795108079910278), ('maehinery', 0.5749990940093994), ('reshipping', 0.5673781633377075), ('carding', 0.5659915208816528)]
+#### Raw models
+One model per time slice is saved under `./outputs/<test_run_name>/raw/` (automatically created when running the script), named after the original file, without the `.txt` extension, and with `.model` appended. For example, if you are training the embeddings on `1900.txt`, `1910.txt`, `1920.txt`, and `1930.txt`, the models will be named `1900.model`, `1910.model`, `1920.model`, and `1930.model`. Word2Vec may additionally generate two `.npy` files per model, depending on the size of each model.
 
-## Notes
-### Bottlenecks and decisions made
-- List comprehensions are _much_ slower than appending to a list with each iteration.
-- `csv` is much faster than `pandas` when looping through CSV files.
-- Either way, iterating over lines is much faster than working with columns as lists.
-- Punctuation removal and lowercasing are _fast_ and should be easy to scale up to a much larger corpus.
-- Tokenization and stopword removal were the main bottleneck, but tokenization using NLTK's `regexp` makes it decently fast.
-- _Not caching_ is the real bottleneck with stopword removal. First cache the stopwords in a list, then remove them.
-- Removing stopwords from a string is _much_ faster than from a list (i.e. first remove stopwords, then tokenize).
-- OCR'd text has line breaks marked with hyphen. These need to be removed before anything else.
+#### Aligned models
+The aligned versions of the raw models are saved under `./outputs/<test_run_name>/aligned/` (automatically created when running the script) and will have the same name as the raw ones.
+> __Note__: The aligned model for the most recent time slice will be an exact copy of the raw one.
 
-### Decisions to be made
-- Stopwords: use a precompiled one (e.g. `nltk`) or compile our own? Currently using nltk.
-- Do we want to remove tokens with less then _n_ characters (_n_ to be agreed upon)? Currently not doing so.
-- Articles with very low OCR quality. The few articles pre-1830 in the LWM collection, for instance, have such a low OCR quality that there are 'no words' occurring more than 5 times. How do we deal with these?
-- Do we want to align using Procrustes or do we want to simply initialize the embedding of a decade with the vectors from the model for the previous decade each time? See [[1]](#1) for discussion. Currently using Procrustes.
-- If Procrustes, generalized orthogonal or pairwise? And which method in terms of source model (model to align to)? Currently using Orthogonal and aligning each decade to the previous one.
-- When sentences are collected to train a word2vec model, they are currently stored in a list. Can less memory-consuming types be used? Currently models trained on more than 15M articles need at least 32GiB of RAM.
-- Spell check. `spell_checker.py` works well, but it seems time consuming (to be checked systematically). Currently applying it post-training by merging vectors of misspellings.
+### Computational costs
+[BREAKDOWN OF COSTS/TIMES]
 
+## Post-processing (optional)
+### Merging of vectors of spelling variants
+> __Warning__: This is still experimental and computationally expensive. The exploration scripts described in the next section do not assume any post-processing of the vectors.
 
-## References and relevant literature
-> This list is not exhaustive.
+Working with historical data often means dealing with OCR errors. A possible, though computationally expensive, way of partially counteracting the noise created in the embeddings trained on OCR'd texts is to attempt error correction. Doing so directly on the text sources would be computationally unfeasible for Big Data, so that another option is to post-merge the trained embeddings of highly likely OCR spelling variants, by averaging the vectors and keeping only the likely correct entry. The script `merge_errors.py` currently uses the `pyspellchecker` library, which is based on Levinshtein distance, to look for unknown entries, correct them, and average them with the other vectors for the same entry which resulted from the correction. To apply the spellchecker, simply run:
 
-<a id="1">[1]</a> 
-Tsakalidis, A., Basile, P., Bazzi, M. et al. DUKweb, diachronic word representations from the UK Web Archive corpus. Sci Data 8, 269 (2021). https://doi.org/10.1038/s41597-021-01047-x
+```
+python ./scripts/postprocessing/merge_errors.py
+```
 
-<a id="2">[2]</a> 
-Yoon Kim, Yi-I Chiu, Kentaro Hanaki, Darshan Hegde, and Slav Petrov. 2014. Temporal Analysis of Language through Neural Language Models. In Proceedings of the ACL 2014 Workshop on Language Technologies and Computational Social Science, pages 61–65, Baltimore, MD, USA. Association for Computational Linguistics. http://dx.doi.org/10.3115/v1/W14-2517
+Before running the script, edit the variables `modelpath` with the path to the model whose word vectors you wish to spellcheck and `newmodelname` with the name (including `.txt` extension) you wish to give to the new vector file. The output will be a non-binary file containing the new vectors list only, saved by default in the same directory as the original model.
+> __Note__: The spellchecker will only merge misspellings with the most likely correct variant, but will not remove identified misspelling for which a possible correction has not been identified.
 
-<a id="3">[3]</a> 
-Philippa Shoemark, Farhana Ferdousi Liza, Dong Nguyen, Scott Hale, and Barbara McGillivray. 2019. Room to Glo: A Systematic Comparison of Semantic Change Detection Approaches with Word Embeddings. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages 66–76, Hong Kong, China. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/D19-1007
+## Explore pre-trained diachronic word embeddings
+Under `./scripts/exploration` you can find three different notebooks to get you started at exploring the diachronic vector spaces trained using the method laid out above. Below we provide a brief description of what you can achieve with each of them given diachronic word embedding models.
 
-<a id="4">[4]</a> 
+### Changepoint detection
+> Notebook: `changepoint_detection.ipynb`.
+<p align="center">
+<img src="documentation/cpdetection.png" width="740" height="250">
+</p>
+<p align="center">
+Fig. 2 - Example of change points detected for <i>train</i> and <i>traffic</i>
+</p>
+
+Given a word (o set thereof), this notebook takes you through how you can detect semantic change points in pre-trained diachronic word embeddings by leveraging the cosine similarity between the vector of the word in the most recent time slice and each of the previous timeslices. We use the [PELT algorithm](https://centre-borelli.github.io/ruptures-docs/user-guide/detection/pelt/), as implemented in the [`ruptures`](https://centre-borelli.github.io/ruptures-docs/) library, to detect potential change points.
+
+### Visualize semantic change trajectory
+> Notebook: `visualize_trajectory.ipynb`.
+
+<p align="center">
+<img src="documentation/railway.png" width="650" height="450">
+</p>
+<p align="center">
+Fig. 3 - Diachronic semantic trajectory of <i>railway</i> in the 19th century,.
+</p>
+
+In this notebook we will see how to visualize the semantic trajectory of a word across time slices, based on the changes in nearest neighbours from one time slice to the next. 
+
+We assume that the diachronic embeddings used to visualize the trajectory were trained on OCR'd texts and therefore contain OCR errors, which is why the `spellchecker` package is incorporated to attempt automatically reducing the number of mispellings showing up among the nearest neighbours. A further (optional) step for manual cleaning is also introduced before generating visualization such as the one in Fig. 3.
+
+### K-means clustering with Dynamic Time Warping
+> Notebook: `time_series_clustering.ipynb`.
+<p align="center">
+<img src="documentation/dtw.png" width="600" height="540">
+</p>
+<p align="center">
+Fig. 4 - Example of <i>k</i>-means clustering with Dynamic Time Warping as core metric.
+</p>
+
+This notebook shows how to perform _k_-means clustering of time-series data derived from the vectors of different words in different time slices, using [Dynamic Time Warping](https://en.wikipedia.org/wiki/Dynamic_time_warping) (DTW) as a core metric - a technique for time-series comparison. The goal is to cluster the semantic trajectories of different words in order to get insights into the several ways in which a word can undergo meaning change in the same timespan.
+
+## Links, references and relevant literature
+> __Note__: This list is not exhaustive.
+
+### References and useful literature
+
+<a id="graphbasedemb">[1]</a> 
+Ragheb Al-Ghezi and Mikko Kurimo. 2020. Graph-based Syntactic Word Embeddings. In Proceedings of the Graph-based Methods for Natural Language Processing (TextGraphs), pages 72–78, Barcelona, Spain (Online). Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/2020.textgraphs-1.8
+
+<a id="hamilton">[2]</a> 
 William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2016. Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change. In Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 1489–1501, Berlin, Germany. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/P16-1141
 
-<a id="5">[5]</a> 
+<a id="kim">[3]</a> 
+Yoon Kim, Yi-I Chiu, Kentaro Hanaki, Darshan Hegde, and Slav Petrov. 2014. Temporal Analysis of Language through Neural Language Models. In Proceedings of the ACL 2014 Workshop on Language Technologies and Computational Social Science, pages 61–65, Baltimore, MD, USA. Association for Computational Linguistics. http://dx.doi.org/10.3115/v1/W14-2517
+
+<a id="kutuzov">[4]</a> 
 Andrey Kutuzov, Lilja Øvrelid, Terrence Szymanski, and Erik Velldal. 2018. Diachronic word embeddings and semantic shifts: a survey. In Proceedings of the 27th International Conference on Computational Linguistics, pages 1384–1397, Santa Fe, New Mexico, USA. Association for Computational Linguistics. https://aclanthology.org/C18-1117
+
+<a id="levygold2014">[5]</a> 
+Omer Levy and Yoav Goldberg. 2014. Dependency-Based Word Embeddings. In Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers), pages 302–308, Baltimore, Maryland. Association for Computational Linguistics. http://dx.doi.org/10.3115/v1/P14-2050
+
+<a id="roomtoglo">[6]</a> 
+Philippa Shoemark, Farhana Ferdousi Liza, Dong Nguyen, Scott Hale, and Barbara McGillivray. 2019. Room to Glo: A Systematic Comparison of Semantic Change Detection Approaches with Word Embeddings. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages 66–76, Hong Kong, China. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/D19-1007
+
+<a id="dukweb">[7]</a> 
+Tsakalidis, A., Basile, P., Bazzi, M. et al. DUKweb, diachronic word representations from the UK Web Archive corpus. Sci Data 8, 269 (2021). https://doi.org/10.1038/s41597-021-01047-x
+
+<a id="gcnemb">[8]</a> 
+Shikhar Vashishth, Manik Bhandari, Prateek Yadav, Piyush Rai, Chiranjib Bhattacharyya, and Partha Talukdar. 2019. Incorporating Syntactic and Semantic Information in Word Embeddings using Graph Convolutional Networks. In Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics, pages 3308–3318, Florence, Italy. Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/P19-1320
+
+
+### Useful links
+- [Word2Vec as implemented in Gensim](https://radimrehurek.com/gensim/models/word2vec.html)
+
+### TODO
+- [ ] Add options for training using algorithms other than just Word2Vec.
+- [ ] Add link to published related paper (forthcoming).
+- [ ] Add link to deposited pre-trained models (coming soon!).
