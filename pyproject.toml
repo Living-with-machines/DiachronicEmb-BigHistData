@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "BigHistDiachEmb"
+version = "1.0.0"
+description = "Tools to train and explore diachronic word embeddings from Big Historical Data"
+authors = ["Nilo Pedrazzini"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+pandas = "1.4.2"
+gensim = "4.1.2"
+matplotlib = "3.5.1"
+nltk = "3.7"
+scikit-learn = "1.1.2"
+scipy = "1.8.0"
+tqdm = "4.64.0"
+PyYAML = "6.0"
+pyspellchecker = "0.6.3"
+adjustText = "0.7.3"
+ruptures = "1.1.7"
+tslearn = {git = "https://github.com/tslearn-team/tslearn.git", rev = "main"}
+ipykernel = "^6.16.0"
+numpy = "1.23.3"
+
+[tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0","setuptools<60", "wheel", "numpy<1.23", "Cython"]
+build-backend = "poetry.core.masonry.api"
