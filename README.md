@@ -307,6 +307,7 @@ Shikhar Vashishth, Manik Bhandari, Prateek Yadav, Piyush Rai, Chiranjib Bhattach
 
 ### Pre-processing
 > Sample: **4.7 billion words** (ca 20GB of TXT)
+
 Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
 
 ### Tokenization and training
