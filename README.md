@@ -41,6 +41,9 @@ Table of contents
 - [Links, references and relevant literature](#links-references-and-relevant-literature)
     * [References and useful literature](#references-and-useful-literature)
     * [Useful links](#useful-links)
+- [Appendix 1: Computational Costs](#appendix-1-computational-costs)
+    *[Pre-processing](#pre-processing)
+    *[Tokenization and Training](#tokenization-and-training)
 
 ## Overview of the tools
 The scripts presented in this repository were created to **train and explore diachronic word embeddings (Word2Vec) from very large historical data for which metadata on the year of publication of each text file is available**. While the mapping between texts and year of publication is essential (to get _diachronic_ embeddings), the methods presented can in principle be applied to any other diachronic collection. 
@@ -80,11 +83,13 @@ BigHistDiachEmb
 
 ## Installation
 
-### Pre-requisites
+### Prerequisites
 The setup relies on the integration of [`pyenv`](https://github.com/pyenv/pyenv) and [`poetry`](https://python-poetry.org). Make sure you first install `pyenv` following [these instructions](https://github.com/pyenv/pyenv#installation) and `poetry` following [these instructions](https://python-poetry.org/docs/#installation).
 
-### Clone project
-
+### Clone the project
+```
+git clone https://github.com/Living-with-machines/DiachronicEmb-BigHistData.git
+```
 
 ### Install Python version (pyenv)
 Install `python 3.10.1`. This is the version on which this project has been tested (on MacOS and Linux/Ubuntu), so there is no guarantee that everything will run smoothly on other Python versions. To install it run:
@@ -110,7 +115,7 @@ exec bash -l
 Change directory to the current project:
 
 ```
-cd ???
+cd DiachronicEmb-BigHistData
 ```
 
 Create virtual environment and install project dependencies:
@@ -207,8 +212,6 @@ One model per time slice is saved under `./outputs/<test_run_name>/raw/` (automa
 The aligned versions of the raw models are saved under `./outputs/<test_run_name>/aligned/` (automatically created when running the script) and will have the same name as the raw ones.
 > __Note__: The aligned model for the most recent time slice will be an exact copy of the raw one.
 
-### Computational costs
-[BREAKDOWN OF COSTS/TIMES]
 
 ## Post-processing (optional)
 ### Merging of vectors of spelling variants
@@ -299,3 +302,114 @@ Shikhar Vashishth, Manik Bhandari, Prateek Yadav, Piyush Rai, Chiranjib Bhattach
 - [ ] Add options for training using algorithms other than just Word2Vec.
 - [ ] Add link to published related paper (forthcoming).
 - [ ] Add link to deposited pre-trained models (coming soon!).
+
+## Appendix 1: Computational costs
+
+### Pre-processing
+> Sample: **4.7 billion words** (ca 20GB of TXT)
+Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
+
+### Tokenization and training
+> Sample: **13,495,444** sentences (906.5 MB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **2 mins**.
+    * time to train a model: **37 mins**
+    * TOT: ca. **41 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **2 mins**.
+    * time to train a model: **32 mins**
+    * TOT: **39 mins**
+
+> Sample: **9,389,676** sentences (680.1 MB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **1.5 mins**.
+    * time to train a model: **27 mins**
+    * TOT: **30 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **1 min**.
+    * time to train a model: **16 mins**
+    * TOT: **19 mins**
+
+> Sample: **30,181,001** sentences (2.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **4 mins**.
+    * time to train a model: **1h 4 mins**
+    * TOT:  **1h 11 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **4.5 mins**.
+    * time to train a model: **1h 8 mins**
+    * TOT:  **1h 10 mins**
+
+> Sample:  **37,786,194** sentences (2.5 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **5 mins**.
+    * time to train a model: **1h 10 mins**
+    * TOT: **1h 15 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **5.5 mins**.
+    * time to train a model: **1h 40min**
+    * TOT: **1h 45 mins**
+
+> Sample: **34,126,059** sentences (2.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **13 mins**.
+    * time to train a model: **1h 17 mins**
+    * TOT: **1 h 50m**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **5.5 mins**.
+    * time to train a model: **1h 40 mins**
+    * TOT: **1 45 min**
+
+> Sample: **27,021,377** sentences (1.7 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **10 mins**.
+    * time to train a model: **1h**
+    * TOT: **1h 10 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **3.5 mins**.
+    * time to train a model: **1h 15 mins**
+    * TOT: **1h 20 mins**
+
+> Sample: **35,716,553** sentences (2.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **4.5 mins**.
+    * time to train a model: **1h 6 mins**
+    * TOT: **1h 15 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **4.5 mins**.
+    * time to train a model: **1h 40 mins**
+    * TOT: **1h 45 mins**
+
+> Sample: 1890s **34,077,373** sentences (1.9 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **4 mins**.
+    * time to train a model: **52 mins**
+    * TOT: **56 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **5 mins**.
+    * time to train a model: **1h 25 mins**
+    * TOT: **1h 30 mins**
+
+> Sample:  **23,530,425** sentences (1.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **3 mins**.
+    * time to train a model:  **32 mins**
+    * TOT: **35 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **2.5 mins**.
+    * time to train a model: **51 mins**
+    * TOT: **53 mins**
+
+> Sample: 1910s **14,678,780** sentences (693.4 MB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **2 mins**.
+    * time to train a model: **18 mins**
+    * TOT: **20 mins**
+- On Ubuntu (XXGB RAM):
+    * time to tokenize: **2.5 mins**.
+    * time to train a model: **26 mins**
+    * TOT: **30 mins**
+
+### Merging of vectors (post-correction of OCR errors)
+To load a model, extract its keys, check the spelling for **356,429 word vectors** and merge the mispellings it took: **4.40 hours**. 
+> __Warning__: 258,944 out of 356,429 words were considered mispellings! Out of the remaiining 97,484 words there are still certainly several mispellings, which SpellChecker did not manage to correct. Use this pipeline wisely.
