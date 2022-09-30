@@ -6,3 +6,4 @@ __pycache__
 .DS_Store
 DHOxSS/
 .ipynb_checkpoints
+scripts/optimize_params
