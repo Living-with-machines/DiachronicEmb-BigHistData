@@ -1,7 +1,7 @@
 <div align="center">
     <br>
     <p align="center">
-    <h1>BigHistData-Diachronic-Embeddings</h1>
+    <h1>DiachronicEmb-BigHistData</h1>
     </p>
     <h2>Tools to train and explore diachronic word embeddings from Big Historical Data</h2>
 </div>
