@@ -316,7 +316,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **2 mins**.
     * time to train a model: **37 mins**
     * TOT: ca. **41 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **2 mins**.
     * time to train a model: **32 mins**
     * TOT: **39 mins**
@@ -326,7 +326,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **1.5 mins**.
     * time to train a model: **27 mins**
     * TOT: **30 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **1 min**.
     * time to train a model: **16 mins**
     * TOT: **19 mins**
@@ -336,7 +336,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **4 mins**.
     * time to train a model: **1h 4 mins**
     * TOT:  **1h 11 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **4.5 mins**.
     * time to train a model: **1h 8 mins**
     * TOT:  **1h 10 mins**
@@ -346,7 +346,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **5 mins**.
     * time to train a model: **1h 10 mins**
     * TOT: **1h 15 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **5.5 mins**.
     * time to train a model: **1h 40min**
     * TOT: **1h 45 mins**
@@ -356,7 +356,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **13 mins**.
     * time to train a model: **1h 17 mins**
     * TOT: **1 h 50m**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **5.5 mins**.
     * time to train a model: **1h 40 mins**
     * TOT: **1 45 min**
@@ -366,7 +366,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **10 mins**.
     * time to train a model: **1h**
     * TOT: **1h 10 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **3.5 mins**.
     * time to train a model: **1h 15 mins**
     * TOT: **1h 20 mins**
@@ -376,7 +376,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **4.5 mins**.
     * time to train a model: **1h 6 mins**
     * TOT: **1h 15 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **4.5 mins**.
     * time to train a model: **1h 40 mins**
     * TOT: **1h 45 mins**
@@ -386,7 +386,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **4 mins**.
     * time to train a model: **52 mins**
     * TOT: **56 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **5 mins**.
     * time to train a model: **1h 25 mins**
     * TOT: **1h 30 mins**
@@ -396,7 +396,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **3 mins**.
     * time to train a model:  **32 mins**
     * TOT: **35 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **2.5 mins**.
     * time to train a model: **51 mins**
     * TOT: **53 mins**
@@ -406,7 +406,7 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to tokenize: **2 mins**.
     * time to train a model: **18 mins**
     * TOT: **20 mins**
-- On Ubuntu (XXGB RAM):
+- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **2.5 mins**.
     * time to train a model: **26 mins**
     * TOT: **30 mins**
