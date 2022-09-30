@@ -3,7 +3,6 @@
 import pytest
 
 from glob import glob
-import yaml
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -12,8 +11,6 @@ from gensim.models import Word2Vec
 from tqdm import tqdm
 import timeit
 import re
-
-import pytest
 import yaml
 
 from utils import smart_procrustes_align_gensim
