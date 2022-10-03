@@ -62,23 +62,21 @@ Fig. 1 - Flowchart of the methods, from preprocessing to time-series analysis. R
 </p>
 
 
-## Repository structure
+## Project structure
 ```
 BigHistDiachEmb
 ├─ README.md
 └─ scripts
-   ├─ alignment
-   │    ├─ align-procrustes-from-vectors.py
-   │    └─ align-procrustes.py
    ├─ exploration
-   │    └─ word_diachrony.ipynb
-   ├─ postprocess
+   │    ├─ changepoint_detection.ipynb
+   │    ├─ dynamic_time_warping.ipynb
+   │    └─ visualize_diachronic_emb.ipynb
+   ├─ postprocessing
    │    └─ merge_errors.py
-   ├─ preprocess
-   │    ├─ listpathsbyyear.py
-   │    └─ preprocess=alto2txt-totxt.py
    └─ training
-        └─ train_fromtxt.py
+        ├─ config.yaml
+        ├─ train_diach_emb.py
+        └─ utils.py
 ```
 
 ## Installation
