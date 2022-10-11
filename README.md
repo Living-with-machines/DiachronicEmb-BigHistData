@@ -415,4 +415,19 @@ To load a model, extract its keys, check the spelling for **356,429 word vectors
 > __Warning__: 258,944 out of 356,429 words were considered mispellings! Out of the remaiining 97,484 words there are still certainly several mispellings, which SpellChecker did not manage to correct. Use this pipeline wisely.
 
 ## Appendix 2: Pre-trained vectors
-[Here](https://doi.org/10.5281/zenodo.7181681) you can download pre-trained diachronic embeddings trained on a 4.2B-word corpus of 19th-century British newspapers, divided by decades.
+[Here](https://doi.org/10.5281/zenodo.7181681) you can download pre-trained diachronic embeddings trained on a 4.2B-word corpus of 19th-century British newspapers, divided by decades. If you use the pre-trained vectors, please cite:
+
+> Pedrazzini, Nilo & Barbara McGillivray. 2022. _Diachronic word embeddings from 19th-century British newspapers_ [Data set]. Zenodo. DOI: https://doi.org/10.5281/zenodo.7181682
+
+```
+@dataset{pedrazzinimcgilli_diachemb19data,
+  author       = {Nilo Pedrazzini and
+                  Barbara McGillivray},
+  title        = {{Diachronic word embeddings from 19th-century 
+                   British newspapers}},
+  year         = 2022,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.7181682},
+  url          = {https://doi.org/10.5281/zenodo.7181682}
+}
+```
