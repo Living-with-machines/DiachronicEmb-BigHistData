@@ -44,6 +44,7 @@ Table of contents
 - [Appendix 1: Computational Costs](#appendix-1-computational-costs)
     * [Pre-processing](#pre-processing)
     * [Tokenization and Training](#tokenization-and-training)
+- [Appendix 2: Pre-trained vectors](#appendix-2-pre-trained-vectors)
 
 ## Overview of the tools
 The scripts presented in this repository were created to **train and explore diachronic word embeddings (Word2Vec) from very large historical data for which metadata on the year of publication of each text file is available**. While the mapping between texts and year of publication is essential (to get _diachronic_ embeddings), the methods presented can in principle be applied to any other diachronic collection. 
@@ -412,3 +413,6 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
 ### Merging of vectors (post-correction of OCR errors)
 To load a model, extract its keys, check the spelling for **356,429 word vectors** and merge the mispellings it took: **4.40 hours**. 
 > __Warning__: 258,944 out of 356,429 words were considered mispellings! Out of the remaiining 97,484 words there are still certainly several mispellings, which SpellChecker did not manage to correct. Use this pipeline wisely.
+
+## Appendix 2: Pre-trained vectors
+[Here](https://doi.org/10.5281/zenodo.7181681) you can download pre-trained diachronic embeddings trained on a 4.2B-word corpus of 19th-century British newspapers, divided by decades.
