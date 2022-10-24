@@ -20,7 +20,7 @@ def cleantxt(text, remove_punctuation, lowercase):
     newtext = re.sub('-\n', '', text) # Remove OCR'd linebreaks within words if they exist
     newtext = re.sub('\n', ' ', newtext) # Remove ordinary linebreaks (there shouldn't be, so this might be redundant)
     if remove_punctuation == True:
-        newtext = re.sub(r'[^a-zA-Z\s]', ' ', str(newtext)) # Remove anything that is not a space, a letter, or a number
+        newtext = re.sub(r'[^a-zA-Z0-9\s]', ' ', str(newtext)) # Remove anything that is not a space, a letter, or a number
     if lowercase == True:
         newtext = str(newtext).lower() # Lowercase
     return newtext
