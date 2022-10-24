@@ -22,7 +22,7 @@
 Table of contents
 -----------------
 - [Overview of the tools](#overview-of-the-tools)
-- [Repository structure](#repository-structure)
+- [Project structure](#project-structure)
 - [Installation](#installation)
 - [Data structure](#data-structure)
 - [Train diachronic word embeddings](#train-diachronic-word-embeddings)
