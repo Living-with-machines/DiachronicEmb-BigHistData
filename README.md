@@ -300,25 +300,16 @@ Shikhar Vashishth, Manik Bhandari, Prateek Yadav, Piyush Rai, Chiranjib Bhattach
 ### TODO
 - [ ] Add options for training using algorithms other than just Word2Vec.
 - [ ] Add link to published related paper (forthcoming).
-- [ ] Add link to deposited pre-trained models (coming soon!).
+- [x] Add link to deposited pre-trained models (coming soon!).
 
 ## Appendix 1: Computational costs
 
 ### Pre-processing
 > Sample: **4.7 billion words** (ca 20GB of TXT)
 
-Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
+Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM).
 
 ### Tokenization and training
-> Sample: **13,495,444** sentences (906.5 MB TXT file)
-- On MacOS (16GB RAM):
-    * time to tokenize: **2 mins**.
-    * time to train a model: **37 mins**
-    * TOT: ca. **41 mins**
-- On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **2 mins**.
-    * time to train a model: **32 mins**
-    * TOT: **39 mins**
 
 > Sample: **9,389,676** sentences (680.1 MB TXT file)
 - On MacOS (16GB RAM):
@@ -330,35 +321,35 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to train a model: **16 mins**
     * TOT: **19 mins**
 
-> Sample: **30,181,001** sentences (2.2 GB TXT file)
+> Sample: **13,495,444** sentences (906.5 MB TXT file)
 - On MacOS (16GB RAM):
-    * time to tokenize: **4 mins**.
-    * time to train a model: **1h 4 mins**
-    * TOT:  **1h 11 mins**
+    * time to tokenize: **2 mins**.
+    * time to train a model: **37 mins**
+    * TOT: ca. **41 mins**
 - On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **4.5 mins**.
-    * time to train a model: **1h 8 mins**
-    * TOT:  **1h 10 mins**
+    * time to tokenize: **2 mins**.
+    * time to train a model: **32 mins**
+    * TOT: **39 mins**
 
-> Sample:  **37,786,194** sentences (2.5 GB TXT file)
+> Sample: **14,678,780** sentences (693.4 MB TXT file)
 - On MacOS (16GB RAM):
-    * time to tokenize: **5 mins**.
-    * time to train a model: **1h 10 mins**
-    * TOT: **1h 15 mins**
+    * time to tokenize: **2 mins**.
+    * time to train a model: **18 mins**
+    * TOT: **20 mins**
 - On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **5.5 mins**.
-    * time to train a model: **1h 40min**
-    * TOT: **1h 45 mins**
+    * time to tokenize: **2.5 mins**.
+    * time to train a model: **26 mins**
+    * TOT: **30 mins**
 
-> Sample: **34,126,059** sentences (2.2 GB TXT file)
+> Sample: **23,530,425** sentences (1.2 GB TXT file)
 - On MacOS (16GB RAM):
-    * time to tokenize: **13 mins**.
-    * time to train a model: **1h 17 mins**
-    * TOT: **1 h 50m**
+    * time to tokenize: **3 mins**.
+    * time to train a model:  **32 mins**
+    * TOT: **35 mins**
 - On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **5.5 mins**.
-    * time to train a model: **1h 40 mins**
-    * TOT: **1 45 min**
+    * time to tokenize: **2.5 mins**.
+    * time to train a model: **51 mins**
+    * TOT: **53 mins**
 
 > Sample: **27,021,377** sentences (1.7 GB TXT file)
 - On MacOS (16GB RAM):
@@ -370,6 +361,36 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to train a model: **1h 15 mins**
     * TOT: **1h 20 mins**
 
+> Sample: **30,181,001** sentences (2.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **4 mins**.
+    * time to train a model: **1h 4 mins**
+    * TOT:  **1h 11 mins**
+- On Ubuntu (16 VCPUs, 64 GB RAM):
+    * time to tokenize: **4.5 mins**.
+    * time to train a model: **1h 8 mins**
+    * TOT:  **1h 10 mins**
+
+> Sample: **34,077,373** sentences (1.9 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **4 mins**.
+    * time to train a model: **52 mins**
+    * TOT: **56 mins**
+- On Ubuntu (16 VCPUs, 64 GB RAM):
+    * time to tokenize: **5 mins**.
+    * time to train a model: **1h 25 mins**
+    * TOT: **1h 30 mins**
+
+> Sample: **34,126,059** sentences (2.2 GB TXT file)
+- On MacOS (16GB RAM):
+    * time to tokenize: **13 mins**.
+    * time to train a model: **1h 17 mins**
+    * TOT: **1 h 50m**
+- On Ubuntu (16 VCPUs, 64 GB RAM):
+    * time to tokenize: **5.5 mins**.
+    * time to train a model: **1h 40 mins**
+    * TOT: **1 45 min**
+
 > Sample: **35,716,553** sentences (2.2 GB TXT file)
 - On MacOS (16GB RAM):
     * time to tokenize: **4.5 mins**.
@@ -380,35 +401,15 @@ Time taken: **7 hours and 32 minutes** on MacOS (16GB RAM)
     * time to train a model: **1h 40 mins**
     * TOT: **1h 45 mins**
 
-> Sample: 1890s **34,077,373** sentences (1.9 GB TXT file)
+> Sample:  **37,786,194** sentences (2.5 GB TXT file)
 - On MacOS (16GB RAM):
-    * time to tokenize: **4 mins**.
-    * time to train a model: **52 mins**
-    * TOT: **56 mins**
-- On Ubuntu (16 VCPUs, 64 GB RAM):
     * time to tokenize: **5 mins**.
-    * time to train a model: **1h 25 mins**
-    * TOT: **1h 30 mins**
-
-> Sample:  **23,530,425** sentences (1.2 GB TXT file)
-- On MacOS (16GB RAM):
-    * time to tokenize: **3 mins**.
-    * time to train a model:  **32 mins**
-    * TOT: **35 mins**
+    * time to train a model: **1h 10 mins**
+    * TOT: **1h 15 mins**
 - On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **2.5 mins**.
-    * time to train a model: **51 mins**
-    * TOT: **53 mins**
-
-> Sample: 1910s **14,678,780** sentences (693.4 MB TXT file)
-- On MacOS (16GB RAM):
-    * time to tokenize: **2 mins**.
-    * time to train a model: **18 mins**
-    * TOT: **20 mins**
-- On Ubuntu (16 VCPUs, 64 GB RAM):
-    * time to tokenize: **2.5 mins**.
-    * time to train a model: **26 mins**
-    * TOT: **30 mins**
+    * time to tokenize: **5.5 mins**.
+    * time to train a model: **1h 40min**
+    * TOT: **1h 45 mins**
 
 ### Merging of vectors (post-correction of OCR errors)
 To load a model, extract its keys, check the spelling for **356,429 word vectors** and merge the mispellings it took: **4.40 hours**. 
