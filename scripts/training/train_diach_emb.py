@@ -40,7 +40,7 @@ from nltk.tokenize.regexp import regexp_tokenize
 from gensim.models import Word2Vec
 from tqdm import tqdm
 import timeit
-from .utils import stopwdsrm, cleantxt, smart_procrustes_align_gensim
+from utils import stopwdsrm, cleantxt, smart_procrustes_align_gensim
 
 # ------------------- Start timing the whole process --------------------
 
@@ -61,23 +61,21 @@ skip_training = configs['training']['skip']
 skip_alignment = configs['alignment']['skip']
 
 ## -- Preprocessing
-if skip_preprocessing == False:
-    savepreprocessed = configs['preprocessing']['savepreprocessed']
-    minwordlength = configs['preprocessing']['pipelines']['minwordlength']
-    lowercase = configs['preprocessing']['pipelines']['lowercase']
-    remove_punctuation = configs['preprocessing']['pipelines']['remove_punctuation']
-    remove_stopwords = configs['preprocessing']['pipelines']['remove_stopwords']
+savepreprocessed = configs['preprocessing']['savepreprocessed']
+minwordlength = configs['preprocessing']['pipelines']['minwordlength']
+lowercase = configs['preprocessing']['pipelines']['lowercase']
+remove_punctuation = configs['preprocessing']['pipelines']['remove_punctuation']
+remove_stopwords = configs['preprocessing']['pipelines']['remove_stopwords']
 
 ## -- Training
-if skip_training == False:
-    epochs = configs['training']['options']['epochs']
-    vector_size = configs['training']['options']['vector_size']
-    sg = configs['training']['options']['sg']
-    min_count = configs['training']['options']['min_count']
-    window = configs['training']['options']['window']
-    start_alpha = configs['training']['options']['start_alpha']
-    end_alpha = configs['training']['options']['end_alpha']
-    workers = configs['training']['options']['workers']
+epochs = configs['training']['options']['epochs']
+vector_size = configs['training']['options']['vector_size']
+sg = configs['training']['options']['sg']
+min_count = configs['training']['options']['min_count']
+window = configs['training']['options']['window']
+start_alpha = configs['training']['options']['start_alpha']
+end_alpha = configs['training']['options']['end_alpha']
+workers = configs['training']['options']['workers']
 
 # ------------------- Create dirs if needed --------------------
 
@@ -200,7 +198,7 @@ if skip_alignment == False:
     model1.save('./outputs/{}/aligned/{}'.format(namethetest,model1_name))
 
     # --- Aligned each of the models to the model for the last time slice
-    for model in allmodels[:-2]:
+    for model in allmodels[:-1]:
 
         model2_name = model.split('/')[-1]
         print('Now aligning {} to {}...'.format(model1_name,model2_name))
