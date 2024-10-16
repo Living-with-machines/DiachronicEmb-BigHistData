@@ -2,7 +2,7 @@ pandas==1.4.2
 gensim==4.3.1
 matplotlib==3.5.1
 nltk==3.7
-scikit-learn==1.1.2
+scikit-learn==1.5.0
 scipy==1.10.0
 tqdm==4.64.0
 PyYAML==6.0
