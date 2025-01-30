@@ -31,7 +31,6 @@ Table of contents
         - [Pre-processed texts](#pre-processed-texts)
         - [Raw models](#raw-models)
         - [Aligned models](#aligned-models)
-    * [Computational costs](#computational-costs)
 - [Post-processing (optional)](#post-processing-optional)
     * [Merging of vectors of spelling variants](#merging-of-vectors-of-spelling-variants)
 - [Explore pre-trained diachronic word embeddings](#explore-pre-trained-diachronic-word-embeddings)
@@ -265,9 +264,24 @@ Fig. 4 - Example of <i>k</i>-means clustering with Dynamic Time Warping as core 
 This notebook shows how to perform _k_-means clustering of time-series data derived from the vectors of different words in different time slices, using [Dynamic Time Warping](https://en.wikipedia.org/wiki/Dynamic_time_warping) (DTW) as a core metric - a technique for time-series comparison. The goal is to cluster the semantic trajectories of different words in order to get insights into the several ways in which a word can undergo meaning change in the same timespan.
 
 ## Links, references and relevant literature
-> __Note__: This list is not exhaustive.
+
+Main reference:
+
+> Pedrazzini, Nilo, & Barbara McGillivray. 2022. [Machines in the media: semantic change in the lexical field of mechanization in 19th-century British newspapers](https://aclanthology.org/2022.nlp4dh-1.12). In *Proceedings of the 2nd International Workshop on Natural Language Processing for Digital Humanities (NLP4DH)*, 85–95. Association for Computational Linguistics (ACL).
+
+```
+@article{publications10040039,
+  title = {Machines in the media: semantic change in the lexical field of mechanization in 19th-century British newspapers},
+  author = {Pedrazzini, Nilo and McGillivray, Barbara},
+  journal = {Proceedings of the 2nd International Workshop on Natural Language Processing for Digital Humanities (NLP4DH)},
+  pages = {85--95},
+  year = {2022},
+  url = {https://aclanthology.org/2022.nlp4dh-1.12/}
+  }
+```
 
 ### References and useful literature
+> __Note__: This list is not exhaustive.
 
 <a id="graphbasedemb">[1]</a> 
 Ragheb Al-Ghezi and Mikko Kurimo. 2020. Graph-based Syntactic Word Embeddings. In Proceedings of the Graph-based Methods for Natural Language Processing (TextGraphs), pages 72–78, Barcelona, Spain (Online). Association for Computational Linguistics. http://dx.doi.org/10.18653/v1/2020.textgraphs-1.8
@@ -296,11 +310,6 @@ Shikhar Vashishth, Manik Bhandari, Prateek Yadav, Piyush Rai, Chiranjib Bhattach
 
 ### Useful links
 - [Word2Vec as implemented in Gensim](https://radimrehurek.com/gensim/models/word2vec.html)
-
-### TODO
-- [ ] Add options for training using algorithms other than just Word2Vec.
-- [ ] Add link to published related paper (forthcoming).
-- [x] Add link to deposited pre-trained models (coming soon!).
 
 ## Appendix 1: Computational costs
 
